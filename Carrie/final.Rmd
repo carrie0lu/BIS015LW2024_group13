@@ -42,11 +42,11 @@ names(conservation_status)
 filter for plants
 IUCN_Plants+Non_IUCN_Vascular_Plants
 ```{r}
-filtered_data <- conservation_status %>%
-  filter(group %in% c("IUCN_Plants", "Non_IUCN_Vascular_Plants"))%>%
-  rename(scientific_name = binomial) %>%
-  select(-common_name, -total_area,- small_range, -name_language, -datanam_area,-datanam_pct_area, -small_range, -iso_a3)%>%
-  distinct()
+#filtered_data <- conservation_status %>%
+ # filter(group %in% c("IUCN_Plants", "Non_IUCN_Vascular_Plants"))%>%
+  #rename(scientific_name = binomial) %>%
+  #select(-common_name, -total_area,- small_range, -name_language, -datanam_area,-datanam_pct_area, -small_range, -iso_a3)%>%
+  #distinct()
 
   glimpse(conservatory)
 
@@ -175,7 +175,6 @@ color_palette <- c("CR" = "red", "EN" = "orange", "VU" = "yellow", "NT" = "chart
 mapdata <- map_data("world")
 mapdata <- left_join(mapdata, merge_cleaned, by="region")
 
-# Create the plot
 ggplot(mapdata, aes(x = long, y = lat, group = group)) +
   geom_polygon(aes(fill = iucn_category), color = "black") +
   scale_fill_manual(name = "IUCN Category", values = color_palette) +
@@ -183,31 +182,3 @@ ggplot(mapdata, aes(x = long, y = lat, group = group)) +
   theme_minimal()
 
 ```
-
-```{r}
-legend_labels <- c(
-  "CR" = "Critically Endangered", 
-  "EN" = "Endangered", 
-  "VU" = "Vulnerable", 
-  "NT" = "Near Threatened", 
-  "LC" = "Least Concern", 
-  "DD" = "Data Deficient"
-)
-
-# Create the plot
-ggplot(mapdata, aes(x = long, y = lat, group = group)) +
-  geom_polygon(aes(fill = iucn_category), color = "black", alpha = 0.8) +
-  scale_fill_manual(
-    name = "IUCN Category", 
-    values = color_palette, 
-    breaks = names(color_palette), 
-    labels = legend_labels
-  ) +
-  labs(
-    x = "Longitude", 
-    y = "Latitude", 
-    title = "Map with IUCN Categories and Definitions"
-  ) +
-   theme_minimal()
-```
-
